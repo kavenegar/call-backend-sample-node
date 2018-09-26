@@ -4,6 +4,8 @@ let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
+const commandLineArgs = require('command-line-args');
+
 let app = express();
 let router = express.Router();
 // Database ========================================
@@ -23,19 +25,19 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}));
 
-// ============================================================ //
-
-
-var config = {
-    kavenegarApiToken: "Bearer " + process.argv[2],
-    apnCertificateFile: process.argv[3], // "./avanegar.p12"
-    apnCertificatePassword: process.argv[4], // "password"
-    firebaseProjectFile: process.argv[5], // ./firebase-project.json
-    firebaseDatabaseURL: process.argv[6] // https://kavenegar-call-android-sdk.firebaseio.com
-};
 
 // ============================================================ //
+const optionDefinitions = [
+    {name: 'kavenegarApiToken', type: String, defaultValue: null},
+    {name: 'apnCertificateFile', type: String, defaultValue: null},
+    {name: 'apnCertificatePassword', type: String, defaultValue: null},
+    {name: 'firebaseProjectFile', type: String, defaultValue: null},
+    {name: 'firebaseDatabaseURL', type: String, defaultValue: null}
+];
 
+const config = commandLineArgs(optionDefinitions);
+
+// ============================================================ //
 
 let axios = require('axios');
 const httpClient = axios.create({
@@ -47,20 +49,24 @@ const httpClient = axios.create({
 // Firebase Messaging Config =============================================================== //
 
 const firebaseAdmin = require('firebase-admin');
-firebaseAdmin.initializeApp({
-    credential: firebaseAdmin.credential.cert(require('./' + config.firebaseProjectFile)),
-    databaseURL: config.firebaseDatabaseURL
-});
+if (config.firebaseProjectFile) {
+    firebaseAdmin.initializeApp({
+        credential: firebaseAdmin.credential.cert(require('./' + config.firebaseProjectFile)),
+        databaseURL: config.firebaseDatabaseURL
+    });
+}
 
 // Apple Messaging Config =============================================================== //
 
 const apn = require('apn');
-
-const appleApnProvider = new apn.Provider({
-    pfx: config.apnCertificateFile,
-    passphrase: config.apnCertificatePassword,
-    production: false
-});
+var appleApnProvider = null;
+if (config.apnCertificateFile) {
+    appleApnProvider = new apn.Provider({
+        pfx: config.apnCertificateFile,
+        passphrase: config.apnCertificatePassword,
+        production: false
+    });
+}
 
 // ===========================================================//
 app.get('/', function (req, res) {
@@ -177,7 +183,6 @@ function sendNotification(token, payload, platform) {
         });
     }
     else {
-
         const notification = new apn.Notification();
         notification.topic = "io.avanegar.ios.sample.voip";
         notification.body = JSON.stringify(payload);
