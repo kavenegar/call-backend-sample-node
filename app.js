@@ -142,9 +142,6 @@ app.post("/authorize", function (req, res) {
         displayName: req.body.displayName,
         platform: req.body.platform
     };
-
-    console.log("Authorize request for :", JSON.stringify(payload, undefined, 4))
-
     if (payload.deviceId == null || payload.notificationToken == null || payload.username == null || payload.platform == null) {
         res.status(422).send({"status": "invalid_parameters"});
         return;
