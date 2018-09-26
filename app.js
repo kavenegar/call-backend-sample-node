@@ -50,7 +50,7 @@ let axios = require('axios');
 const httpClient = axios.create({
     baseURL: 'https://api.kavenegar.io/user/v1/',
     timeout: 10000,
-    headers: {'Authorization': config.kavenegarApiToken}
+    headers: {'Authorization': "Bearer" + config.kavenegarApiToken}
 });
 
 // Firebase Messaging Config =============================================================== //
@@ -90,7 +90,7 @@ app.post("/calls", function (req, res) {
     var receptor = db.get("users").find({username: req.body.receptor}).value();
 
     if (caller == null || receptor == null) {
-        res.status(500).send({status: "invalid_caller_or_receptor"});
+        res.status(500).send({status: "local_invalid_caller_or_receptor"});
         return;
     }
 
@@ -143,7 +143,7 @@ app.post("/authorize", function (req, res) {
         platform: req.body.platform
     };
     if (payload.deviceId == null || payload.notificationToken == null || payload.username == null || payload.platform == null) {
-        res.status(422).send({"status": "invalid_parameters"});
+        res.status(422).send({"status": "local_invalid_parameters"});
         return;
     }
 
@@ -156,23 +156,6 @@ app.post("/authorize", function (req, res) {
     });
 
 });
-
-
-// ========================================================= //
-//
-// app.use(function (req, res, next) {
-//     next(createError(404));
-// });
-//
-//
-// app.use(function (err, req, res, next) {
-//     res.locals.message = err.message;
-//     res.locals.error = req.app.get('env') === 'development' ? err : {};
-//
-//     // render the error page
-//     res.status(err.status || 500);
-//     res.render('error');
-// });
 
 
 function sendNotification(username, token, payload, platform) {
