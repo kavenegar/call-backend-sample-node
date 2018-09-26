@@ -1,3 +1,6 @@
 node_modules
 package-lock.json
 yarn.lock
+avanegar.p12
+db.json
+firebase-project.json

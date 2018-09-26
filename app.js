@@ -6,7 +6,6 @@ let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 let app = express();
 let router = express.Router();
-let notificationSender = require('./notificationSender');
 // Database ========================================
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
@@ -27,16 +26,43 @@ app.use(bodyParser.urlencoded({extended: true}));
 // ============================================================ //
 
 
+var config = {
+    kavenegarApiToken: "Bearer " + process.argv[2],
+    apnCertificateFile: process.argv[3], // "./avanegar.p12"
+    apnCertificatePassword: process.argv[4], // "password"
+    firebaseProjectFile: process.argv[5], // ./firebase-project.json
+    firebaseDatabaseURL: process.argv[6] // https://kavenegar-call-android-sdk.firebaseio.com
+};
+
+// ============================================================ //
+
+
 let axios = require('axios');
 const httpClient = axios.create({
     baseURL: 'https://api.kavenegar.io/user/v1/',
     timeout: 10000,
-    headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbmZvQG1vaHNlbi53b3JrIiwicm9sZXMiOiJ1c2VyIiwidXNlcklkIjoxLCJhcHBsaWNhdGlvbklkIjoxLCJpYXQiOjE1MjU1MDExNzd9.N7B7kB3ATFKYcUgVkpybKM5dMmSUlIDiycUMHd2_sLY'}
+    headers: {'Authorization': config.kavenegarApiToken}
 });
 
+// Firebase Messaging Config =============================================================== //
 
-//============================================================//
+const firebaseAdmin = require('firebase-admin');
+firebaseAdmin.initializeApp({
+    credential: firebaseAdmin.credential.cert(require('./' + config.firebaseProjectFile)),
+    databaseURL: config.firebaseDatabaseURL
+});
 
+// Apple Messaging Config =============================================================== //
+
+const apn = require('apn');
+
+const appleApnProvider = new apn.Provider({
+    pfx: config.apnCertificateFile,
+    passphrase: config.apnCertificatePassword,
+    production: false
+});
+
+// ===========================================================//
 app.get('/', function (req, res) {
     const payload = {"users": db.get("users").value()};
     console.log("index payload", payload);
@@ -69,9 +95,9 @@ app.post("/calls", function (req, res) {
 
     httpClient.post("calls", payload).then(function (response) {
 
-        var data = response.data;
-        var notificationToken = receptor.notificationToken;
-        notificationSender.send(notificationToken, {
+        const data = response.data;
+        const notificationToken = receptor.notificationToken;
+        sendNotification(notificationToken, {
             callId: data.id,
             accessToken: data.receptor.accessToken
         }, receptor.platform);
@@ -133,7 +159,38 @@ app.use(function (err, req, res, next) {
     res.render('error');
 });
 
-console.log("[Kavenegar Backend Sample is running on port 3000]");
+
+function sendNotification(token, payload, platform) {
+    if (platform === "android") {
+        const message = {
+            data: {
+                action: 'call',
+                payload: JSON.stringify(payload)
+            },
+            token: token
+        };
+
+        firebaseAdmin.messaging().send(message).then((response) => {
+            console.log('Firebase push notification sent message:', response);
+        }).catch((error) => {
+            console.log('Firebase error sending message:', error);
+        });
+    }
+    else {
+
+        const notification = new apn.Notification();
+        notification.topic = "io.avanegar.ios.sample.voip";
+        notification.body = JSON.stringify(payload);
+        notification.badge = 10;
+        appleApnProvider.send(notification, token).then((result) => {
+            console.log("Apple push notification result : ", result);
+        });
+
+    }
+}
+
+
+console.log("Kavenegar Backend Sample Config : ", JSON.stringify(config, undefined, 4));
 
 module.exports = app;
 
