@@ -18,14 +18,21 @@ db.defaults({users: []}).write();
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.use(function (req, res, next) {
+    var send = res.send;
+    res.send = function (body) {
+        console.log(req.method, req.url, "\r\nRequest => ", JSON.stringify(req.body, undefined, 4), "\r\nResponse => ", body, "\r\n=========================================================================");
+        send.call(this, body);
+    };
+    next()
 
+});
 // ============================================================ //
 const optionDefinitions = [
     {name: 'kavenegarApiToken', type: String, defaultValue: null},
@@ -83,7 +90,8 @@ app.post("/calls", function (req, res) {
     var receptor = db.get("users").find({username: req.body.receptor}).value();
 
     if (caller == null || receptor == null) {
-        res.status(500).send({status: "invalid_caller_or_receptor"})
+        res.status(500).send({status: "invalid_caller_or_receptor"});
+        return;
     }
 
     const payload = {
@@ -102,8 +110,9 @@ app.post("/calls", function (req, res) {
     httpClient.post("calls", payload).then(function (response) {
 
         const data = response.data;
+        console.log("Response of kavenegar :", data);
         const notificationToken = receptor.notificationToken;
-        sendNotification(notificationToken, {
+        sendNotification(data.receptor.username, notificationToken, {
             callId: data.id,
             accessToken: data.receptor.accessToken
         }, receptor.platform);
@@ -133,6 +142,9 @@ app.post("/authorize", function (req, res) {
         displayName: req.body.displayName,
         platform: req.body.platform
     };
+
+    console.log("Authorize request for :", JSON.stringify(payload, undefined, 4))
+
     if (payload.deviceId == null || payload.notificationToken == null || payload.username == null || payload.platform == null) {
         res.status(422).send({"status": "invalid_parameters"});
         return;
@@ -150,23 +162,24 @@ app.post("/authorize", function (req, res) {
 
 
 // ========================================================= //
+//
+// app.use(function (req, res, next) {
+//     next(createError(404));
+// });
+//
+//
+// app.use(function (err, req, res, next) {
+//     res.locals.message = err.message;
+//     res.locals.error = req.app.get('env') === 'development' ? err : {};
+//
+//     // render the error page
+//     res.status(err.status || 500);
+//     res.render('error');
+// });
 
-app.use(function (req, res, next) {
-    next(createError(404));
-});
 
-
-app.use(function (err, req, res, next) {
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-    // render the error page
-    res.status(err.status || 500);
-    res.render('error');
-});
-
-
-function sendNotification(token, payload, platform) {
+function sendNotification(username, token, payload, platform) {
+    console.log("Send Notification To ", username, token, payload, platform);
     if (platform === "android") {
         const message = {
             data: {
