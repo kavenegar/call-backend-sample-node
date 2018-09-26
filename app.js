@@ -50,7 +50,7 @@ let axios = require('axios');
 const httpClient = axios.create({
     baseURL: 'https://api.kavenegar.io/user/v1/',
     timeout: 10000,
-    headers: {'Authorization': "Bearer" + config.kavenegarApiToken}
+    headers: {'Authorization': "Bearer " + config.kavenegarApiToken}
 });
 
 // Firebase Messaging Config =============================================================== //
