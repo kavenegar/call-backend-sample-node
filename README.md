@@ -3,6 +3,12 @@
 
 # نمونه کد NodeJS سمت سرور سرویس تماس اینترنتی کاوه نگار
 
+## راه اندازی
+
+
+```bash
+npm start --backend:kavenegar-api-token={} --backend:firebase-project-file={} --backend:firebase-database-url={} --backend:apn-certificate-file={} --backend:apn-certificate-password={}
+```
 
 
 ## ساخت حساب کاربری

@@ -1,21 +1,24 @@
 {
-  "name": "sample-backend-node",
+  "name": "backend",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node  ./bin/www  --kavenegarApiToken $npm_package_config_kavenegarApiToken --firebaseProjectFile $npm_package_config_kavenegarApiToken --firebaseDatabaseURL $npm_package_config_kavenegarApiToken --apnCertificateFile $npm_package_config_kavenegarApiToken --apnCertificatePassword $npm_package_config_kavenegarApiToken"
+  },
+  "config": {
+    "kavenegar-api-token": null,
+    "firebase-project-file": null,
+    "firebase-database-url": null,
+    "apn-certificate-file": null,
+    "apn-certificate-password": null
   },
   "dependencies": {
     "apn": "^2.2.0",
     "axios": "^0.18.0",
-    "command-line-args": "^5.0.2",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
     "express": "~4.16.0",
     "firebase-admin": "^6.0.0",
     "hbs": "~4.0.1",
     "http-errors": "~1.6.2",
-    "lowdb": "^1.0.0",
-    "morgan": "~1.9.0"
+    "lowdb": "^1.0.0"
   }
 }

@@ -2,9 +2,6 @@ var bodyParser = require('body-parser');
 let createError = require('http-errors');
 let express = require('express');
 let path = require('path');
-let cookieParser = require('cookie-parser');
-let logger = require('morgan');
-const commandLineArgs = require('command-line-args');
 
 let app = express();
 let router = express.Router();
@@ -20,7 +17,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -34,16 +30,14 @@ app.use(function (req, res, next) {
 
 });
 // ============================================================ //
-const optionDefinitions = [
-    {name: 'kavenegarApiToken', type: String, defaultValue: null},
-    {name: 'apnCertificateFile', type: String, defaultValue: null},
-    {name: 'apnCertificatePassword', type: String, defaultValue: null},
-    {name: 'firebaseProjectFile', type: String, defaultValue: null},
-    {name: 'firebaseDatabaseURL', type: String, defaultValue: null}
-];
-
-const config = commandLineArgs(optionDefinitions);
-
+const config = {
+    kavenegarApiToken: process.env["npm_package_config_kavenegar_api_token"],
+    apnCertificateFile: process.env["npm_package_config_apn_certificate_file"],
+    apnCertificatePassword: process.env["npm_package_config_apn_certificate_password"],
+    firebaseProjectFile: process.env["npm_package_config_firebase_project_file"],
+    firebaseDatabaseURL: process.env["npm_package_config_firebase_database_url"]
+};
+console.log("Kavenegar Backend Sample Config : ", JSON.stringify(config, undefined, 4));
 // ============================================================ //
 
 let axios = require('axios');
@@ -187,8 +181,6 @@ function sendNotification(username, token, payload, platform) {
     }
 }
 
-
-console.log("Kavenegar Backend Sample Config : ", JSON.stringify(config, undefined, 4));
 
 module.exports = app;
 
