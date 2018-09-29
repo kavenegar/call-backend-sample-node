@@ -1,14 +1,14 @@
 
 <div dir='rtl'>
-
-# نمونه کد NodeJS سمت سرور سرویس تماس اینترنتی کاوه نگار
+# نمونه کد NodeJS سمت سرور تماس اینترنتی کاوه نگار
 
 ## راه اندازی
 
-
+<div dir='ltr'>
 ```bash
 npm start --backend:kavenegar-api-token={} --backend:firebase-project-file={} --backend:firebase-database-url={} --backend:apn-certificate-file={} --backend:apn-certificate-password={}
 ```
+</div>
 
 
 ## ساخت حساب کاربری
