@@ -5,9 +5,11 @@
 ## راه اندازی
 
 <div dir='ltr'>
+
 ```bash
 npm start --backend:kavenegar-api-token={} --backend:firebase-project-file={} --backend:firebase-database-url={} --backend:apn-certificate-file={} --backend:apn-certificate-password={}
 ```
+
 </div>
 
 
