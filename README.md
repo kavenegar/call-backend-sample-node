@@ -9,8 +9,16 @@
 ```bash
 npm start --backend:kavenegar-api-token={} --backend:firebase-project-file={} --backend:firebase-database-url={} --backend:apn-certificate-file={} --backend:apn-certificate-password={}
 ```
-
 </div>
+
+
+### لیست پارامترها :
+
+- backend:kavenegar-api-token =  اپلیکیشن توکن دریافت شده در پنل کاوه نگار که بعد از ساخت اپلیکیشن دریافت می کنید
+- backend:firebase-project-file = مسیر فایل پروژه firebase
+- backend:firebase-database-url = آدرس دیتابیس firebase
+- backend:apn-certificate-file =  آدرس فایل certificate پوش نوتیفیکیشن اپل
+- backend:apn-certificate-password = رمز عبور فایل certificate پوش نوتیفیکیشن اپل
 
 
 ## ساخت حساب کاربری

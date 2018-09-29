@@ -6,11 +6,7 @@
     "start": "node  ./bin/www"
   },
   "config": {
-    "kavenegar-api-token": null,
-    "firebase-project-file": null,
-    "firebase-database-url": null,
-    "apn-certificate-file": null,
-    "apn-certificate-password": null
+
   },
   "dependencies": {
     "apn": "^2.2.0",
