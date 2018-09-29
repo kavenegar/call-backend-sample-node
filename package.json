@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node  ./bin/www  --kavenegarApiToken $npm_package_config_kavenegarApiToken --firebaseProjectFile $npm_package_config_kavenegarApiToken --firebaseDatabaseURL $npm_package_config_kavenegarApiToken --apnCertificateFile $npm_package_config_kavenegarApiToken --apnCertificatePassword $npm_package_config_kavenegarApiToken"
+    "start": "node  ./bin/www"
   },
   "config": {
     "kavenegar-api-token": null,
