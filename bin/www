@@ -96,7 +96,7 @@ function onListening() {
             if ('IPv4' !== iface.family) {
                 return;
             }
-            console.log("[" + iface.address + ":3000" + "]");
+            console.log("[http://" + iface.address + ":3000" + "]");
         });
     });
 
