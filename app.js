@@ -12,9 +12,6 @@ const adapter = new FileSync('db.json');
 const db = low(adapter);
 db.defaults({users: []}).write();
 // =================================================
-
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -71,9 +68,7 @@ if (config.apnCertificateFile) {
 
 // ===========================================================//
 app.get('/', function (req, res) {
-    const payload = {"users": db.get("users").value()};
-    console.log("index payload", payload);
-    res.render('index', payload);
+    res.send(db.get("users").value());
 });
 
 app.post("/calls", function (req, res) {
