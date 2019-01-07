@@ -30,6 +30,7 @@ app.use(function (req, res, next) {
 const config = {
     kavenegarApiToken: process.env["npm_package_config_kavenegar_api_token"],
     apnCertificateFile: process.env["npm_package_config_apn_certificate_file"],
+    apnTopic: process.env["npm_package_config_apn_topic"],
     apnCertificatePassword: process.env["npm_package_config_apn_certificate_password"],
     firebaseProjectFile: process.env["npm_package_config_firebase_project_file"],
     firebaseDatabaseURL: process.env["npm_package_config_firebase_database_url"]
@@ -166,7 +167,7 @@ function sendNotification(username, token, payload, platform) {
     }
     else {
         const notification = new apn.Notification();
-        notification.topic = "io.avanegar.ios.sample.voip";
+        notification.topic = config.apnTopic;
         notification.body = JSON.stringify(payload);
         notification.badge = 10;
         appleApnProvider.send(notification, token).then((result) => {
