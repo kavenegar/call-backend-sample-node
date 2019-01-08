@@ -167,7 +167,7 @@ function sendNotification(username, token, payload, platform) {
     }
     else {
         const notification = new apn.Notification();
-        notification.topic = config.apnTopic;
+        notification.topic = config.apnTopic + ".voip";
         notification.body = JSON.stringify(payload);
         notification.badge = 10;
         appleApnProvider.send(notification, token).then((result) => {
