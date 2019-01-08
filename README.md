@@ -18,12 +18,12 @@ npm start --backend:kavenegar-api-token={} --backend:firebase-project-file={} --
 
 ### لیست پارامترها :
 
-- backend:kavenegar-api-token =  اپلیکیشن توکن دریافت شده در پنل کاوه نگار که بعد از ساخت اپلیکیشن دریافت می کنید
-- backend:firebase-project-file = مسیر فایل پروژه firebase
-- backend:firebase-database-url = آدرس دیتابیس firebase
-- backend:apn-certificate-file =  آدرس فایل certificate پوش نوتیفیکیشن اپل
-- backend:apn-certificate-password = رمز عبور فایل certificate پوش نوتیفیکیشن اپل
-
+- backend:kavenegar-api-token =  Kavenegar Call Application Token
+- backend:firebase-project-file = Firebase Project Json File Path
+- backend:firebase-database-url = Firebase Database URL
+- backend:apn-certificate-file =  Apn Certificate File Path
+- backend:apn-certificate-password = Apn Certificate Password
+- backend:apn-topic = App Bundle Id
 
 ## ساخت حساب کاربری
 
