@@ -34,7 +34,7 @@ npm start --backend:kavenegar-api-token={} --backend:firebase-project-file={} --
 
  ## مستندات
 برای مشاهده اطلاعات کامل مستندات  سرویس تماس اینترنتی به صفحه 
-[مستندات سرویس تماس اینترنتی ](http://docs.kavenegar.io/guide/)
+[مستندات سرویس تماس اینترنتی ](http://docs.kavenegar.io/)
  مراجعه نمایید.
 
 ## آموزش ها 
