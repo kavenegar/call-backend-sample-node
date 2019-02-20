@@ -39,8 +39,8 @@ npm start --backend:kavenegar-api-token={} --backend:firebase-project-file={} --
 
 ## آموزش ها 
 
-- [آموزش راه اندازی سرویس تماس کاوه نگار در اندروید](https://docs.kavenegar.io/blog/android-quickstart.html)
-- [آموزش راه اندازی سرویس تماس کاوه نگار در iOS](http://docs.kavenegar.io/blog/ios-quickstart.html)
+- [آموزش راه اندازی سرویس تماس کاوه نگار در اندروید](https://docs.kavenegar.io/quickstart/android.html)
+- [آموزش راه اندازی سرویس تماس کاوه نگار در iOS](http://docs.kavenegar.io/quickstart/ios.html)
 
 ## نمونه کد
 
@@ -52,7 +52,7 @@ npm start --backend:kavenegar-api-token={} --backend:firebase-project-file={} --
 
 
 برای مطالعه بیشتر به صفحه 
-[معرفی سرویس تماس اینترنتی  کاوه نگار](https://kavenegar.com/service/webcall)
+[معرفی سرویس تماس اینترنتی  کاوه نگار](http://new.kavenegar.com/services/webcall)
  مراجعه نمایید .
 
 اگر در استفاده از کیت های سرویس کاوه نگار مشکلی یا پیشنهادی داشتید ما را با یک Pull Request یا ارسال ایمیل به support@kavenegar.com خوشحال کنید.
