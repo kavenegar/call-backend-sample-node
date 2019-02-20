@@ -15,7 +15,7 @@ npm start --backend:kavenegar-api-token={} --backend:firebase-project-file={} --
 ```
 </div>
 
-
+<div dir='ltr'>
 ### لیست پارامترها :
 
 - backend:kavenegar-api-token =  Kavenegar Call Application Token
@@ -24,7 +24,8 @@ npm start --backend:kavenegar-api-token={} --backend:firebase-project-file={} --
 - backend:apn-certificate-file =  Apn Certificate File Path
 - backend:apn-certificate-password = Apn Certificate Password
 - backend:apn-topic = App Bundle Id
-
+</div>
+ 
 ## ساخت حساب کاربری
 
 اگر در سرویس کاوه نگار عضو نیستید میتوانید از لینک 
