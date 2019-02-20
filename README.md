@@ -15,10 +15,9 @@ npm start --backend:kavenegar-api-token={} --backend:firebase-project-file={} --
 ```
 </div>
 
-<div dir='ltr'>
- 
 ### لیست پارامترها :
 
+<div dir='ltr'>
 - backend:kavenegar-api-token =  Kavenegar Call Application Token
 - backend:firebase-project-file = Firebase Project Json File Path
 - backend:firebase-database-url = Firebase Database URL
