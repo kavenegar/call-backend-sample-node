@@ -2,8 +2,11 @@ var bodyParser = require('body-parser');
 let createError = require('http-errors');
 let express = require('express');
 let path = require('path');
+var cors = require('cors');
 
 let app = express();
+
+//app.use(cors());
 let router = express.Router();
 // Database ========================================
 const low = require('lowdb');
@@ -23,6 +26,13 @@ app.use(function (req, res, next) {
         console.log(req.method, req.url, "\r\nRequest => ", JSON.stringify(req.body, undefined, 4), "\r\nResponse => ", body, "\r\n=========================================================================");
         send.call(this, body);
     };
+
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH');
+    res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+    res.header("Access-Control-Max-Age","1800");
+
     next()
 
 });
@@ -97,7 +107,7 @@ app.post("/calls", function (req, res) {
         }
     };
 
-    httpClient.post("calls", payload).then(function (response) {
+    httpClient.post("calls", payload).then((response) => {
 
         const data = response.data;
         console.log("Response of kavenegar :", data);
@@ -111,6 +121,7 @@ app.post("/calls", function (req, res) {
             callId: data.id,
             accessToken: data.caller.accessToken
         });
+        
     }).catch(reason => {
         if (reason.response) {
             res.status(500).send(reason.response.data);
@@ -137,7 +148,7 @@ app.post("/authorize", function (req, res) {
         return;
     }
 
-    db.get("users").remove({deviceId: payload.deviceId}).write(); // remove old data with this token
+    db.get("users").remove({username: payload.username}).write(); // remove old data with this token
 
     db.get("users").push(payload).write();
 
@@ -150,7 +161,7 @@ app.post("/authorize", function (req, res) {
 
 function sendNotification(username, token, payload, platform) {
     console.log("Send Notification To ", username, token, payload, platform);
-    if (platform === "android") {
+    if (platform === "android" || platform === "web") {
         const message = {
             data: {
                 action: 'call',

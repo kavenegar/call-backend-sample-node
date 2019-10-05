@@ -5,12 +5,11 @@
   "scripts": {
     "start": "node  ./bin/www"
   },
-  "config": {
-
-  },
+  "config": {},
   "dependencies": {
     "apn": "^2.2.0",
     "axios": "^0.18.0",
+    "cors": "^2.8.5",
     "express": "~4.16.0",
     "firebase-admin": "^6.0.0",
     "http-errors": "~1.6.2",
