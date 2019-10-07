@@ -2,11 +2,9 @@ var bodyParser = require('body-parser');
 let createError = require('http-errors');
 let express = require('express');
 let path = require('path');
-var cors = require('cors');
 
 let app = express();
 
-//app.use(cors());
 let router = express.Router();
 // Database ========================================
 const low = require('lowdb');
@@ -29,7 +27,7 @@ app.use(function (req, res, next) {
 
     res.header('Access-Control-Allow-Credentials', 'true');
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH');
+    res.header('Access-Control-Allow-Methods', '*');
     res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
     res.header("Access-Control-Max-Age","1800");
 
