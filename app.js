@@ -58,7 +58,7 @@ const httpClient = axios.create({
 const firebaseAdmin = require('firebase-admin');
 if (config.firebaseProjectFile) {
     firebaseAdmin.initializeApp({
-        credential: firebaseAdmin.credential.cert(require('./' + config.firebaseProjectFile)),
+        credential: firebaseAdmin.credential.cert(require(config.firebaseProjectFile)),
         databaseURL: config.firebaseDatabaseURL
     });
 }
